@@ -15,7 +15,7 @@
                 <div class="col mb-5">
                     <div class="card h-100">
                         <!-- Product image-->
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="..."/>
+                        <a href="{{ product.get_absolute_url }}"><img class="card-img-top" src="{{ product.image.url }}" alt="..."/></a>
                         <!-- Product details-->
                         <div class="card-body p-4">
                             <div class="text-center">
