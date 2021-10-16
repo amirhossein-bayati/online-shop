@@ -12,4 +12,4 @@ def homePage(request):
     return render(request, 'blog/partials/content.html', context)
 
 def productDetail(request, pk, slug):
-    return HttpResponse("HI")
+    return render(request, 'blog/partials/product_detail.html')
