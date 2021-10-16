@@ -4,15 +4,27 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
-# # with method of manager
-# class PostManager(models.Manager):
-#     def get_published(self):
-#         return self.filter(status='published')
-#
-#
-# class ProductPublishManager(models.Manager):
-#     def get_queryset(self):
-#         return super(ProductPublishManager, self).get_queryset().filter(status='published')
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.name
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    date_orderd = models.DateTimeField(auto_now_add=True)
+    coplete = models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100, null=True)
+
+
+class ShippingAddress(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    address = models.TextField(max_length=500)
+    city = models.CharField(max_length=50)
+    date_added = models.DateTimeField(auto_now_add=True)
 
 
 class Product(models.Model):
@@ -40,4 +52,11 @@ class Product(models.Model):
     def get_absolute_url(self):
         url = reverse('blog:product_detail', args=[self.id, self.slug])
         return url
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
+    quantity = models.IntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)
 
