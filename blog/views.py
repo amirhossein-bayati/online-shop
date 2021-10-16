@@ -4,7 +4,7 @@ from .models import Product
 
 
 def homePage(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(status='published')
 
     context = {
         'products': products,
@@ -12,7 +12,7 @@ def homePage(request):
     return render(request, 'blog/partials/content.html', context)
 
 def productDetail(request, pk, slug):
-    product = get_object_or_404(Product, id=pk, slug=slug, status='publish')
+    product = get_object_or_404(Product, id=pk, slug=slug, status='published')
     # product = Product.objects.get(id=pk, slug=slug)
     context = {
         'product': product,
