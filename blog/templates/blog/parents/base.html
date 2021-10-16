@@ -12,6 +12,8 @@
 {% include 'blog/partials/navbar.html' %}
 
 {% block content %}{% endblock %}
+
+{% include 'blog/partials/pagination.html' with page=products %}
 {% include 'blog/partials/footer.html' %}
 <script>{% block script %}{% endblock %}</script>
 
