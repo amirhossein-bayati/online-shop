@@ -31,6 +31,7 @@ def homePage(request):
     }
     return render(request, 'blog/partials/content.html', context)
 
+
 def productDetail(request, pk, slug):
     product = get_object_or_404(Product, id=pk, slug=slug, status='published')
     # product = Product.objects.get(id=pk, slug=slug)
@@ -38,3 +39,10 @@ def productDetail(request, pk, slug):
         'product': product,
     }
     return render(request, 'blog/partials/product_detail.html', context)
+
+
+def cart(request):
+    context = {
+
+    }
+    return render(request, 'blog/partials/cart.html', context)
