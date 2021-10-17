@@ -50,6 +50,6 @@ def cart(request):
         items = []
     context = {
         'items': items,
-
+        'order': order,
     }
     return render(request, 'blog/partials/cart.html', context)

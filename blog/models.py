@@ -19,6 +19,17 @@ class Order(models.Model):
     coplete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
 
+    @property
+    def get_total_prducts(self):
+        orderItems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderItems])
+        return total
+
+    @property
+    def get_total_price(self):
+        orderItems = self.orderitem_set.all()
+        total = sum([item.get_total_price for item in orderItems])
+        return total
 
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
