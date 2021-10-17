@@ -187,7 +187,7 @@
                         <div class="col">
                             <h4><b>Shopping Cart</b></h4>
                         </div>
-                        <div class="col align-self-center text-right text-muted">{{ order.get_total_prducts }} items</div>
+                        <div class="col align-self-center text-right text-muted">{{ order.get_total_products }} items</div>
                     </div>
                 </div>
                 {% for item in items %}
@@ -212,7 +212,7 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col" style="padding-left:0;">{{ order.get_total_prducts }} ITEMS</div>
+                    <div class="col" style="padding-left:0;">{{ order.get_total_products }} ITEMS</div>
                     <div class="col text-right">$ {{ order.get_total_price|floatformat:2 }}</div>
                 </div>
                 <form>

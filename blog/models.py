@@ -20,7 +20,7 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=100, null=True)
 
     @property
-    def get_total_prducts(self):
+    def get_total_products(self):
         orderItems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderItems])
         return total
