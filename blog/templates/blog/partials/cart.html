@@ -193,11 +193,12 @@
                 {% for item in items %}
                     <div class="row">
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="{{ item.product.image.url }}"></div>
+                        <div class="col-2"><a href="{{ item.product.get_absolute_url }}"><img class="img-fluid" src="{{ item.product.image.url }}"></a></div>
                         <div class="col">
                             <div class="row text-muted">{{ item.product.title }}</div>
                             <div class="row">{{ item.product.description|truncatechars:15 }}</div>
                         </div>
+
                         <div class="col text-decoration-none"><a href="#">-</a><a href="#" class="border">{{ item.quantity }}</a><a href="#">+</a></div>
                         <div class="col">$ {{ item.get_total_price|floatformat:2  }}<span class="close mx-4">&#10005;</span></div>
                     </div>
