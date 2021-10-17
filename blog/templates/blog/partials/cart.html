@@ -225,7 +225,7 @@
                     <div class="col">TOTAL PRICE</div>
                     <div class="col text-right">$ {{ order.get_total_price|floatformat:2  }}</div>
                 </div>
-                <button class="btn">CHECKOUT</button>
+                <a href="{% url 'blog:checkout' %}"><button class="btn">CHECKOUT</button></a>
             </div>
         </div>
     </div>

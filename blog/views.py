@@ -60,7 +60,18 @@ def cart(request):
 
 
 def checkout(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, coplete=False)
+        items = OrderItem.objects.filter(order=order)
+    else:
+        items = []
+        order = {
+            'get_total_price': 0,
+            'get_total_products': 0,
+        }
     context = {
-
+        'items': items,
+        'order': order,
     }
     return render(request, 'blog/partials/checkout.html', context)
