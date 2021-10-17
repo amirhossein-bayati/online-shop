@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Product
+from .models import *
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -42,7 +42,14 @@ def productDetail(request, pk, slug):
 
 
 def cart(request):
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, coplete=False)
+        items = OrderItem.objects.filter(order=order)
+    else:
+        items = []
     context = {
+        'items': items,
 
     }
     return render(request, 'blog/partials/cart.html', context)

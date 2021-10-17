@@ -188,39 +188,19 @@
                         <div class="col align-self-center text-right text-muted">3 items</div>
                     </div>
                 </div>
-                <div class="row border-top border-bottom">
+                {% for item in items %}
+                    <div class="row">
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
+                        <div class="col-2"><img class="img-fluid" src="{{ item.product.image.url }}"></div>
                         <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
+                            <div class="row text-muted">{{ item.product.title }}</div>
+                            <div class="row">{{ item.product.description|truncatechars:15 }}</div>
                         </div>
-                        <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
+                        <div class="col text-decoration-none"><a href="#">-</a><a href="#" class="border">{{ item.quantity }}</a><a href="#">+</a></div>
+                        <div class="col">$ {{ item.get_total_price }}<span class="close">&#10005;</span></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">Shirt</div>
-                            <div class="row">Cotton T-shirt</div>
-                        </div>
-                        <div class="col"><a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a></div>
-                        <div class="col">&euro; 44.00 <span class="close">&#10005;</span></div>
-                    </div>
-                </div>
+                {% endfor %}
                 <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
             </div>
             <div class="col-md-4 summary">

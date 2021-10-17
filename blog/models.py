@@ -12,6 +12,7 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_orderd = models.DateTimeField(auto_now_add=True)
@@ -46,6 +47,9 @@ class Product(models.Model):
     # published = ProductPublishManager()
     # objects = PostManager()
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return self.title
 
@@ -59,4 +63,9 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total_price(self):
+        price = self.quantity * self.product.price
+        return price
 
