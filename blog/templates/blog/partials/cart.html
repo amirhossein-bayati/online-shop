@@ -210,7 +210,7 @@
                                                                              data-product="{{ item.product.id }}"
                                                                              data-action="add">+</a></div>
                             <div class="col">$ {{ item.get_total_price|floatformat:2 }}<a
-                                    class="close mx-4 h5" href="">&#10005;</a></div>
+                                    class="update-item close mx-4 h5" href="" data-product="{{ item.product.id }}" data-action="delete">&#10005;</a></div>
                         </div>
                     </div>
                 {% endfor %}
