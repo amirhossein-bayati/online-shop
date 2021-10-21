@@ -1,4 +1,4 @@
-var updateBtns = document.getElementsByClassName('btn-outline-info')
+var updateBtns = document.getElementsByClassName('update-item')
 
 
 for (var i = 0; i < updateBtns.length; i++) {

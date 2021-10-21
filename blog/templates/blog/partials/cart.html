@@ -7,6 +7,7 @@
         a {
             text-decoration: none;
         }
+
         .title {
             margin-bottom: 5vh
         }
@@ -134,7 +135,7 @@
             color: transparent
         }
 
-        .btn {
+        #btn {
             background-color: #000;
             border-color: #000;
             color: white;
@@ -145,7 +146,7 @@
             border-radius: 0
         }
 
-        .btn:focus {
+        #btn:focus {
             box-shadow: none;
             outline: none;
             box-shadow: none;
@@ -155,7 +156,7 @@
             transition: none
         }
 
-        .btn:hover {
+        #btn:hover {
             color: white
         }
 
@@ -187,24 +188,35 @@
                         <div class="col">
                             <h4><b>Shopping Cart</b></h4>
                         </div>
-                        <div class="col align-self-center text-right text-muted">{{ order.get_total_products }} items</div>
+                        <div class="col align-self-center text-right text-muted">{{ order.get_total_products }} items
+                        </div>
                     </div>
                 </div>
                 {% for item in items %}
                     <div class="row">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><a href="{{ item.product.get_absolute_url }}"><img class="img-fluid" src="{{ item.product.image.url }}"></a></div>
-                        <div class="col">
-                            <div class="row text-muted">{{ item.product.title }}</div>
-                            <div class="row">{{ item.product.description|truncatechars:15 }}</div>
-                        </div>
+                        <div class="row main align-items-center">
+                            <div class="col-2"><a href="{{ item.product.get_absolute_url }}"><img class="img-fluid"
+                                                                                                  src="{{ item.product.image.url }}"></a>
+                            </div>
+                            <div class="col">
+                                <div class="row text-muted">{{ item.product.title }}</div>
+                                <div class="row">{{ item.product.description|truncatechars:15 }}</div>
+                            </div>
 
-                        <div class="col text-decoration-none"><a href="#">-</a><a href="#" class="border">{{ item.quantity }}</a><a href="#">+</a></div>
-                        <div class="col">$ {{ item.get_total_price|floatformat:2  }}<span class="close mx-4">&#10005;</span></div>
+                            <div class="col text-decoration-none"><a class="update-item h5" href=""
+                                                                     data-product="{{ item.product.id }}"
+                                                                     data-action="remove">-</a><a
+                                    class="border">{{ item.quantity }}</a><a href="" class="update-item h5"
+                                                                             data-product="{{ item.product.id }}"
+                                                                             data-action="add">+</a></div>
+                            <div class="col">$ {{ item.get_total_price|floatformat:2 }}<a
+                                    class="close mx-4 h5" href="">&#10005;</a></div>
+                        </div>
                     </div>
-                </div>
                 {% endfor %}
-                <a href="{% url 'blog:home' %}"><div class="back-to-shop">&leftarrow;<span class="text-muted">Back to shop</span></div></a>
+                <a href="{% url 'blog:home' %}">
+                    <div class="back-to-shop">&leftarrow;<span class="text-muted">Back to shop</span></div>
+                </a>
             </div>
             <div class="col-md-4 summary">
                 <div>
@@ -223,9 +235,11 @@
                 </form>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right">$ {{ order.get_total_price|floatformat:2  }}</div>
+                    <div class="col text-right">$ {{ order.get_total_price|floatformat:2 }}</div>
                 </div>
-                <a href="{% url 'blog:checkout' %}"><button class="btn">CHECKOUT</button></a>
+                <a href="{% url 'blog:checkout' %}">
+                    <button id="btn">CHECKOUT</button>
+                </a>
             </div>
         </div>
     </div>

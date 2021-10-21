@@ -9,6 +9,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def homePage(request):
     products = Product.objects.filter(status='published')
+    customer = request.user.customer
+    order, created = Order.objects.get_or_create(customer=customer, coplete=False)
+    order_items_count = order.get_total_products
 
     # Paginate Site With 6 Items Per A Page
     paginator = Paginator(products, 8)
@@ -29,6 +32,7 @@ def homePage(request):
     context = {
         'products': products,
         'page': page,
+        'order_items_count':  order_items_count,
     }
     return render(request, 'blog/partials/content.html', context)
 
@@ -53,9 +57,11 @@ def cart(request):
             'get_total_price': 0,
             'get_total_products': 0,
         }
+    order_items_count = order.get_total_products
     context = {
         'items': items,
         'order': order,
+        'order_items_count': order_items_count,
     }
     return render(request, 'blog/partials/cart.html', context)
 
@@ -71,9 +77,11 @@ def checkout(request):
             'get_total_price': 0,
             'get_total_products': 0,
         }
+    order_items_count = order.get_total_products
     context = {
         'items': items,
         'order': order,
+        'order_items_count': order_items_count,
     }
     return render(request, 'blog/partials/checkout.html', context)
 
