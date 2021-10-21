@@ -1,0 +1,18 @@
+{% extends 'blog/parents/base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block head %}{% endblock %}
+
+
+
+{% block content %}
+    <form method="post">
+        {% for item in form %}
+
+            {{ item.label }}: {{ item }}<br>
+        {% endfor %}
+    <input type="submit" name="submit" value="register">
+    {% csrf_token %}
+    </form>
+{% endblock %}

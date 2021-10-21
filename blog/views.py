@@ -1,9 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 import json
+
+from django.urls import reverse_lazy
+
 from .models import *
 
+from .forms import CreateUserForm
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from django.views.generic import FormView
 
 
 
@@ -113,3 +120,13 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('update item', safe=False)
+
+
+class registerPage(FormView):
+    template_name = 'blog/account/register.html'
+    form_class = CreateUserForm
+    success_url = reverse_lazy('blog:home')
+
+    def form_valid(self, form):
+        user = form.save()
+        return super().form_valid(form)
