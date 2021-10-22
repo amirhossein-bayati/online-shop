@@ -161,3 +161,10 @@ def logoutPage(request):
     logout(request)
     return redirect('blog:login')
 
+
+
+def accountPage(request):
+    context = {
+
+    }
+    return render(request, 'blog/account/account.html', context)
