@@ -15,7 +15,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'name', 'email')
+    list_display = ('user', 'email')
     list_filter = ('user',)
 
 
