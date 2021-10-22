@@ -1,3 +1,5 @@
+from django.contrib import messages
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 import json
@@ -128,7 +130,7 @@ def updateItem(request):
 class registerPage(FormView):
     template_name = 'blog/account/register.html'
     form_class = CreateUserForm
-    success_url = reverse_lazy('blog:home')
+    success_url = reverse_lazy('blog:login')
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
@@ -150,8 +152,12 @@ class loginPage(LoginView):
     def get_success_url(self):
         return reverse_lazy('blog:home')
 
+    def form_invalid(self, form):
+        messages.error(self.request, 'Username or password is Incorrect')
+        return super().form_invalid(self)
+
 
 def logoutPage(request):
     logout(request)
-    return redirect('blog:home')
+    return redirect('blog:login')
 

@@ -7,12 +7,74 @@
 
 
 {% block content %}
-    <form method="post">
-        {% for item in form %}
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 offset-md-4">
+                        <span class="anchor" id="formLogin"></span>
 
-            {{ item.label }}: {{ item }}<br>
-        {% endfor %}
-    <input type="submit" name="submit" value="register">
-    {% csrf_token %}
-    </form>
+                        <!-- form card login with validation feedback -->
+                        <div class="card card-outline-secondary">
+                            <div class="card-header" style="background-color: #212529; color: white">
+                                <h3 class="mb-0" style="float: left">Register</h3><br><br>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off" id="loginForm" method="POST">
+                                    {% if form.errors %}
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                {% for err in field.errors %}
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ field.label }}: {{ err }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="form-group my-2">
+                                        <label for="inputName">Username</label>
+                                        <input name="username" type="text" class="form-control" id="inputName"
+                                                required>
+                                    </div>
+                                    <div class="form-group my-2">
+                                        <label for="inputEmail3">Email</label>
+                                        <input name="email" type="email" class="form-control" id="inputEmail3"
+                                                required>
+                                    </div>
+                                    <div class="form-group my-2">
+                                        <label for="inputPassword3">Password</label>
+                                        <input name="password1" type="password" class="form-control" id="inputPassword3"
+                                                required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputVerify3">Confirm password</label>
+                                        <input name="password2" type="password" class="form-control" id="inputVerify3"
+                                                required>
+                                    </div>
+                                    <p class="my-2">Already have an account? <a href="{% url 'blog:login' %}">Login</a></p>
+                                    <button type="submit" class="btn btn-dark btn-lg float-right" id="btnLogin" style="float: right">
+                                        Register
+                                    </button>
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                            <!--/card-body-->
+                        </div>
+                        <!-- /form card login -->
+
+                    </div>
+
+                </div>
+                <!--/row-->
+
+            </div>
+            <!--/col-->
+        </div>
+        <!--/row-->
+
+
+    </div>
+    <!--/container-->
 {% endblock %}
