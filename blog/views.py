@@ -12,16 +12,19 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.views.generic import FormView
 from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth import logout
 
 
 
 
 def homePage(request):
     products = Product.objects.filter(status='published')
-    customer = request.user.customer
-    order, created = Order.objects.get_or_create(customer=customer, coplete=False)
-    order_items_count = order.get_total_products
-
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, coplete=False)
+        order_items_count = order.get_total_products
+    else:
+        order_items_count = 0
     # Paginate Site With 6 Items Per A Page
     paginator = Paginator(products, 8)
     page = request.GET.get('page')
@@ -146,4 +149,9 @@ class loginPage(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('blog:home')
+
+
+def logoutPage(request):
+    logout(request)
+    return redirect('blog:home')
 

@@ -11,4 +11,5 @@ urlpatterns = [
     path('update-item/', views.updateItem, name='update_item'),
     path('register/', views.registerPage.as_view(), name='register'),
     path('login/', views.loginPage.as_view(), name='login'),
+    path('logout/', views.logoutPage, name='logout'),
 ]
