@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 import json
 
@@ -126,6 +126,12 @@ class registerPage(FormView):
     template_name = 'blog/account/register.html'
     form_class = CreateUserForm
     success_url = reverse_lazy('blog:home')
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('blog:home')
+        return super().get(*args, **kwargs)
+
 
     def form_valid(self, form):
         user = form.save()
