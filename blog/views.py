@@ -11,6 +11,8 @@ from .forms import CreateUserForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.views.generic import FormView
+from django.contrib.auth.views import LogoutView, LoginView
+
 
 
 
@@ -108,8 +110,6 @@ def updateItem(request):
     elif action == "remove":
         orderItem.quantity = (orderItem.quantity - 1)
     elif action == "delete":
-        print("ta inja omad")
-        print(orderItem.product)
         orderItem.delete()
 
     orderItem.save()
@@ -129,4 +129,15 @@ class registerPage(FormView):
 
     def form_valid(self, form):
         user = form.save()
+        email = form.cleaned_data['email']
+        customer = Customer.objects.create(user=user, email=email)
         return super().form_valid(form)
+
+
+class loginPage(LoginView):
+    template_name = 'blog/account/login.html'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('blog:home')
+
