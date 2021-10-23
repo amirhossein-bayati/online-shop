@@ -164,7 +164,8 @@ def logoutPage(request):
 
 
 def accountPage(request):
+    customer = request.user.customer
     context = {
-
+        'customer': customer,
     }
     return render(request, 'blog/account/account.html', context)
