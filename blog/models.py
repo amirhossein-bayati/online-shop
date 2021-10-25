@@ -11,6 +11,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
+    address = models.CharField(max_length=500, blank=True, null=True)
 
 
     def __str__(self):

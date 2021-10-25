@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 
 from .models import *
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, AccountForm
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -165,7 +165,20 @@ def logoutPage(request):
 
 def accountPage(request):
     customer = request.user.customer
+    if request.method == "POST":
+        accForm = AccountForm(data=request.POST)
+        if accForm.is_valid():
+            cd = accForm.cleaned_data
+            first_name = cd['first_name']
+            last_name = cd['last_name']
+            email = cd['email']
+            phone = cd['phone']
+            address = cd['address']
+            Customer.objects.filter(user=request.user).update(first_name=first_name, last_name=last_name, email=email, phone=phone)
+    else:
+        accForm = AccountForm()
     context = {
         'customer': customer,
+        'accForm': accForm,
     }
     return render(request, 'blog/account/account.html', context)

@@ -125,51 +125,71 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <form method="post">
+                            {% if accForm.errors %}
+                                {% for field in accForm %}
+                                    {% if field.errors %}
+                                        {% for err in field.errors %}
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ field.label }}: {{ err }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Full Name</h6>
+                                        <h6 class="mb-0">First Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="John Doe">
+                                        <input type="text" class="form-control" value="{{ customer.first_name }}"
+                                               name="first_name">
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Last Name</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" value="{{ customer.last_name }}"
+                                               name="last_name">
+                                    </div>
+                                </div>
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Email</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="john@example.com">
+                                        <input type="email" class="form-control" value="{{ customer.email }}"
+                                               name="email">
                                     </div>
                                 </div>
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Phone</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="(239) 816-9029">
+                                        <input type="number" class="form-control" value="{{ customer.phone }}"
+                                               name="phone">
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Mobile</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="(320) 380-4539">
-                                    </div>
-                                </div>
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">Address</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="Bay Area, San Francisco, CA">
+                                        <input type="text" class="form-control" value="" name="address">
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="button" class="btn btn-primary px-4" value="Save Changes">
+                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                                     </div>
                                 </div>
                             </div>
