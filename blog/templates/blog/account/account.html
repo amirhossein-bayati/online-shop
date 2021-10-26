@@ -28,11 +28,24 @@
         .me-2 {
             margin-right: .5rem !important;
         }
+
+        .profile-img {
+            object-fit: cover;
+            width: 165px;
+            height: 165px;
+            box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+            border-radius: 100px;
+            z-index: 0;
+
+        }
+
+
     </style>
 {% endblock %}
 
 
 {% block content %}
+
     <div class="container my-4">
         <div class="main-body">
             <div class="row">
@@ -40,8 +53,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="{{ customer.image.url }}" alt="Admin"
-                                     class="rounded-circle p-1 bg-primary" width="110">
+                                <div class="profile-pic">
+
+                                    <img src="{{ customer.image.url }}"
+                                         id="output" width="200" class="profile-img"/>
+                                </div>
+
+
                                 <div class="mt-3">
                                     <h4>{% if customer.first_name %}{{ customer.first_name }}{% endif %}
                                         {% if customer.last_name %}{{ customer.last_name }}{% endif %}
@@ -124,7 +142,7 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="card">
-                        <form method="post">
+                        <form method="post" enctype="multipart/form-data">
                             {% if accForm.errors %}
                                 {% for field in accForm %}
                                     {% if field.errors %}
@@ -136,13 +154,16 @@
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
+
                             <div class="card-body">
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <h6 class="mb-0">First Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="{{ customer.first_name }}"
+                                        <input type="text" class="form-control"
+                                               value="{% if customer.first_name %}{{ customer.first_name }}{% endif %}"
                                                name="first_name">
                                     </div>
                                 </div>
@@ -152,7 +173,8 @@
                                         <h6 class="mb-0">Last Name</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="{{ customer.last_name }}"
+                                        <input type="text" class="form-control"
+                                               value="{% if customer.last_name %}{{ customer.last_name }}{% endif %}"
                                                name="last_name">
                                     </div>
                                 </div>
@@ -162,7 +184,8 @@
                                         <h6 class="mb-0">Email</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="email" class="form-control" value="{{ customer.email }}"
+                                        <input type="email" class="form-control"
+                                               value="{% if customer.email %}{{ customer.email }}{% endif %}"
                                                name="email">
                                     </div>
                                 </div>
@@ -172,7 +195,8 @@
                                         <h6 class="mb-0">Phone</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="number" class="form-control" value="{{ customer.phone }}"
+                                        <input type="number" class="form-control"
+                                               value="{% if customer.phone %}{{ customer.phone }}{% endif %}"
                                                name="phone">
                                     </div>
                                 </div>
@@ -182,14 +206,26 @@
                                         <h6 class="mb-0">Address</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="" name="address">
+                                        <input type="text" class="form-control"
+                                               value="{% if customer.address %}{{ customer.address }}{% endif %}"
+                                               name="address">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Image</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="file" class="form-control" name="image">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes"
+                                               name="submit">
                                     </div>
                                 </div>
                             </div>
@@ -234,4 +270,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

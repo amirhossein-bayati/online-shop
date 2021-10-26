@@ -174,7 +174,11 @@ def accountPage(request):
             email = cd['email']
             phone = cd['phone']
             address = cd['address']
-            Customer.objects.filter(user=request.user).update(first_name=first_name, last_name=last_name, email=email, phone=phone)
+            image = request.FILES.get('image')
+            Customer.objects.filter(user=request.user).update(first_name=first_name, last_name=last_name, email=email, phone=phone, address=address)
+            customer.image=image
+            customer.save()
+            return redirect('blog:account')
     else:
         accForm = AccountForm()
     context = {

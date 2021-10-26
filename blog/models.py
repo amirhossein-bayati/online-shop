@@ -1,12 +1,25 @@
+import os
+
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+def get_filename_ext(filepath):
+    base_name = os.path.basename(filepath)
+    name, ext = os.path.splitext(base_name)
+    return name, ext
+
+
+def upload_image_path(instance, filename):
+    name, ext = get_filename_ext(filename)
+    final_name = f"{instance.title}{ext}"
+    return f"products/{instance.author}/{final_name}"
+
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    image = models.ImageField(blank=True, default='man.png')
+    image = models.ImageField(upload_to='media/', blank=True, default='man.png')
     email = models.EmailField(max_length=200, null=True)
     first_name = models.CharField(max_length=200, null=True, blank=True)
     last_name = models.CharField(max_length=200, null=True, blank=True)
