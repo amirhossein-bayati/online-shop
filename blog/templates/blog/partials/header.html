@@ -3,7 +3,18 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">Shop in style</h1>
-            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+
+            <div class="input-group" style="width: 150px; margin-left: 460px; margin-top: 35px;">
+                <div class="form-outline">
+                    <div class="form-outline">
+                        <form method="get" action="{% url 'blog:search' %}">
+                            <input id="search-input" type="search" id="form1" class="form-control"
+                                   placeholder="Search..." style="width: 300px;" name="query" value="{{ request.GET.query }}"/>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </header>

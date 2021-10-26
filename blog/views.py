@@ -16,6 +16,8 @@ from django.views.generic import FormView
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.auth import logout
 
+from django.db.models import Q
+
 
 
 
@@ -186,3 +188,16 @@ def accountPage(request):
         'accForm': accForm,
     }
     return render(request, 'blog/account/account.html', context)
+
+
+def post_search(request):
+    if 'query' in request.GET:
+        query = request.GET.get('query')
+        lookup = Q(title__icontains=query) | Q(description__icontains=query)
+        products = Product.objects.filter(lookup, status='published')
+    else:
+        products = {}
+    context = {
+        'products': products,
+    }
+    return render(request, 'blog/partials/content.html', context)
