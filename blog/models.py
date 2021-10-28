@@ -65,6 +65,7 @@ class Product(models.Model):
     title = models.CharField(max_length=80)
     slug = models.CharField(max_length=100)
     price = models.FloatField()
+    offPrice = models.FloatField(null=True, blank=True)
     description = models.TextField(max_length=500)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     image = models.ImageField(null=True, blank=True)
