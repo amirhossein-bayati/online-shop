@@ -5,6 +5,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from django.contrib.contenttypes.fields import GenericRelation
+from star_ratings.models import Rating
+
+
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
     name, ext = os.path.splitext(base_name)
@@ -49,12 +53,18 @@ class Order(models.Model):
         total = sum([item.get_total_price for item in orderItems])
         return total
 
+
+
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     address = models.TextField(max_length=500)
     city = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
+
+
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField()
 
 
 class Product(models.Model):
@@ -73,6 +83,9 @@ class Product(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    ratings = GenericRelation(Rating, related_query_name='products')
+    hits = models.ManyToManyField(IPAddress, null=True, blank=True, related_name='hits')
+
 
     # published = ProductPublishManager()
     # objects = PostManager()

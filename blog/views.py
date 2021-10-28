@@ -22,6 +22,8 @@ from django.db.models import Q
 
 
 def homePage(request):
+    top_products = Product.objects.filter().order_by('-ratings__average')[:4]
+
     products = Product.objects.filter(status='published')
     if request.user.is_authenticated:
         customer = request.user.customer
