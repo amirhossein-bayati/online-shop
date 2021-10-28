@@ -1,4 +1,6 @@
 {% extends 'blog/parents/base.html' %}
+{% load static %}
+{% load ratings %}
 
 {% block title %}Product{% endblock %}
 
@@ -17,9 +19,17 @@
                     <div class="small mb-1">SKU: BST-498</div>
                     <h1 class="display-5 fw-bolder">{{ product.title }}</h1>
                     <div class="fs-5 mb-5">
-                        <span class="text-decoration-line-through">${{ product.price }}</span>
-                        <span>$40.00</span>
+                        <!-- Product price-->
+                        {% if product.offPrice %}
+
+                            <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                            ${{ product.offPrice }}
+                        {% else %}
+                            ${{ product.price }}
+
+                        {% endif %}
                     </div>
+                    <small style="position: absolute; margin-top: -40px;">{% ratings product %}</small>
                     <p class="lead">{{ product.description }}</p>
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
@@ -49,6 +59,7 @@
                                 <h5 class="fw-bolder">Fancy Product</h5>
                                 <!-- Product price-->
                                 $40.00 - $80.00
+
                             </div>
                         </div>
                         <!-- Product actions-->
