@@ -14,6 +14,14 @@
                 {% for product in products %}
                     <div class="col mb-5">
                         <div class="card h-100">
+                            {% if product.offPrice %}
+
+                                <!-- Sale badge-->
+                                <div class="badge bg-dark text-white position-absolute"
+                                     style="top: 0.5rem; right: 0.5rem">
+                                    Sale
+                                </div>
+                            {% endif %}
                             <!-- Product image-->
                             <a href="{{ product.get_absolute_url }}"><img class="card-img-top"
                                                                           src="{{ product.image.url }}"
@@ -24,7 +32,14 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{ product.title }}</h5>
                                     <!-- Product price-->
-                                    ${{ product.price }}
+                                    {% if product.offPrice %}
+
+                                        <span class="text-muted text-decoration-line-through">${{ product.price }}</span>
+                                        ${{ product.offPrice }}
+                                    {% else %}
+                                        ${{ product.price }}
+
+                                    {% endif %}
                                 </div>
                             </div>
                             <!-- Product actions-->
@@ -32,8 +47,9 @@
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto"
                                                             href="{{ product.get_absolute_url }}">View options</a>
                                 </div>
-                                <div class="text-center px-5 my-2 inline-block"><a class="btn btn-outline-info mt-auto update-item"
-                                                            data-product="{{ product.id }}" data-action="add">Add Cart</a>
+                                <div class="text-center px-5 my-2 inline-block"><a
+                                        class="btn btn-outline-info mt-auto update-item"
+                                        data-product="{{ product.id }}" data-action="add">Add Cart</a>
                                 </div>
                             </div>
                         </div>
