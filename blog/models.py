@@ -21,6 +21,10 @@ def upload_image_path(instance, filename):
     return f"products/{instance.author}/{final_name}"
 
 
+class IPAddress(models.Model):
+    ip_address = models.GenericIPAddressField()
+
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='media/', blank=True, default='man.png')
@@ -29,6 +33,8 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.CharField(max_length=500, blank=True, null=True)
+    ip_address = models.OneToOneField(IPAddress, on_delete=models.SET_NULL, blank=True, null=True)
+
 
 
     def __str__(self):
@@ -54,17 +60,12 @@ class Order(models.Model):
         return total
 
 
-
 class ShippingAddress(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     address = models.TextField(max_length=500)
     city = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
-
-
-class IPAddress(models.Model):
-    ip_address = models.GenericIPAddressField()
 
 
 class Product(models.Model):
@@ -84,7 +85,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     ratings = GenericRelation(Rating, related_query_name='products')
-    hits = models.ManyToManyField(IPAddress, null=True, blank=True, related_name='hits')
+    hits = models.ManyToManyField(IPAddress, blank=True, related_name='hits')
 
 
     # published = ProductPublishManager()

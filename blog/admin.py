@@ -41,3 +41,7 @@ class ShippingAddressAdmin(admin.ModelAdmin):
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('product', 'order', 'date_added')
     list_filter = ('product', 'order')
+
+@admin.register(IPAddress)
+class IPAddressAdmin(admin.ModelAdmin):
+    list_display = ('ip_address',)

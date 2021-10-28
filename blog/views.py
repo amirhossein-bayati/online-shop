@@ -57,7 +57,11 @@ def homePage(request):
 
 def productDetail(request, pk, slug):
     product = get_object_or_404(Product, id=pk, slug=slug, status='published')
-    # product = Product.objects.get(id=pk, slug=slug)
+    user_ip = request.user.customer.ip_address
+    if user_ip not in product.hits.all():
+        product.hits.add(user_ip)
+
+
     context = {
         'product': product,
     }
