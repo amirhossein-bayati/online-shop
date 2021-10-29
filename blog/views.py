@@ -18,6 +18,8 @@ from django.contrib.auth import logout
 
 from django.db.models import Q
 
+import random
+
 
 
 
@@ -73,6 +75,7 @@ def cart(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, coplete=False)
         items = OrderItem.objects.filter(order=order)
+
     else:
         items = []
         order = {
@@ -93,17 +96,22 @@ def checkout(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, coplete=False)
         items = OrderItem.objects.filter(order=order)
+        if not (customer.first_name and customer.last_name and customer.address and customer.email and customer.phone):
+            messages.error(request, 'complete your personal information')
+            return redirect('blog:cart')
     else:
         items = []
         order = {
             'get_total_price': 0,
             'get_total_products': 0,
         }
+        return redirect('blog:login')
     order_items_count = order.get_total_products
     context = {
         'items': items,
         'order': order,
         'order_items_count': order_items_count,
+        'customer': customer,
     }
     return render(request, 'blog/partials/checkout.html', context)
 
@@ -170,28 +178,31 @@ def logoutPage(request):
     return redirect('blog:login')
 
 
-
 def accountPage(request):
     customer = request.user.customer
+    order_history = Order.objects.filter(customer=customer, coplete=True)
     if request.method == "POST":
         accForm = AccountForm(data=request.POST)
         if accForm.is_valid():
-            cd = accForm.cleaned_data
-            first_name = cd['first_name']
-            last_name = cd['last_name']
-            email = cd['email']
-            phone = cd['phone']
-            address = cd['address']
-            image = request.FILES.get('image')
-            Customer.objects.filter(user=request.user).update(first_name=first_name, last_name=last_name, email=email, phone=phone, address=address)
-            customer.image=image
-            customer.save()
-            return redirect('blog:account')
+            accForm = AccountForm(data=request.POST)
+            if accForm.is_valid():
+                cd = accForm.cleaned_data
+                customer.first_name = cd['first_name']
+                customer.last_name = cd['last_name']
+                customer.email = cd['email']
+                customer.phone = cd['phone']
+                customer.address = cd['address']
+                image = request.FILES.get('image')
+                if image:
+                    customer.image = image
+                customer.save()
+                return redirect('blog:account')
     else:
         accForm = AccountForm()
     context = {
         'customer': customer,
         'accForm': accForm,
+        'order_history': order_history,
     }
     return render(request, 'blog/account/account.html', context)
 
@@ -207,3 +218,20 @@ def post_search(request):
         'products': products,
     }
     return render(request, 'blog/partials/content.html', context)
+
+
+def payment(request):
+    print(request)
+    return render(request, 'blog/partials/payment.html')
+
+
+def payment_success(request):
+    customer = request.user.customer
+    transaction_id = random.randint(10000, 100000)
+
+    order = Order.objects.get(customer=customer, coplete=False)
+    order.transaction_id = transaction_id
+    order.coplete = True
+    order.save()
+
+    return redirect('blog:account')

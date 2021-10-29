@@ -210,7 +210,8 @@
                                                                              data-product="{{ item.product.id }}"
                                                                              data-action="add">+</a></div>
                             <div class="col">$ {{ item.get_total_price|floatformat:2 }}<a
-                                    class="update-item close mx-4 h5" href="" data-product="{{ item.product.id }}" data-action="delete">&#10005;</a></div>
+                                    class="update-item close mx-4 h5" href="" data-product="{{ item.product.id }}"
+                                    data-action="delete">&#10005;</a></div>
                         </div>
                     </div>
                 {% endfor %}
@@ -240,6 +241,14 @@
                 <a href="{% url 'blog:checkout' %}">
                     <button id="btn">CHECKOUT</button>
                 </a>
+                {% if messages %}
+                    {% for message in messages %}
+
+                        <div class="alert alert-danger my-3" role="alert" style="position: absolute; margin-left: -10px; width: 290px">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

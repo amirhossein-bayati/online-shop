@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+<div class="col-md-12 text-center my-4">
+    <a href="{% url 'blog:cart' %}"><button type="button" class="btn btn-outline-danger">Cancel</button></a>
+    <a href="{% url 'blog:payment_success' %}"><button type="button" class="btn btn-outline-success">Pay</button></a>
+</div>
+</body>
+</html>
