@@ -42,7 +42,13 @@
                             </button>
                         </a>
                     </div>
-                    <p class="tags my-4">Tags: {{ product.tags.all|join:", " }}</p>
+                    <p class="tags my-4">Tags: {% for tag in product.tags.all %}
+                        <a href="{% url "blog:products_by_tag" tag.slug %}" style="text-decoration: None">
+                            {{ tag.name }}
+                        </a>
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    </p>
                 </div>
             </div>
         </div>

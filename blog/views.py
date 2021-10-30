@@ -20,13 +20,22 @@ from django.db.models import Q
 
 import random
 
+from taggit.models import Tag
 
 
 
-def homePage(request):
+
+
+def homePage(request, tag_slug=None):
     top_products = Product.objects.filter().order_by('-ratings__average')[:4]
-
     products = Product.objects.filter(status='published')
+
+    tag =None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        products = Product.objects.filter(tags__in=[tag])
+
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, coplete=False)
