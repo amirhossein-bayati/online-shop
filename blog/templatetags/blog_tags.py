@@ -14,3 +14,8 @@ def show_top_products(count=4):
 def show_most_viewed_products(count=4):
     most_viewed_products = Product.objects.filter().order_by('-hits')[:4]
     return {"similar_products": most_viewed_products}
+
+
+@register.simple_tag
+def define(val=None):
+  return val

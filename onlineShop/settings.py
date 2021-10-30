@@ -133,3 +133,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 STAR_RATINGS_STAR_HEIGHT = 16
+
+LOGIN_URL='blog:login'

@@ -42,6 +42,7 @@
                             </button>
                         </a>
                     </div>
+                {% if product.tags.all %}
                     <p class="tags my-4">Tags: {% for tag in product.tags.all %}
                         <a href="{% url "blog:products_by_tag" tag.slug %}" style="text-decoration: None">
                             {{ tag.name }}
@@ -49,11 +50,13 @@
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
                     </p>
+                {% endif %}
                 </div>
             </div>
         </div>
     </section>
     <!-- Related items section-->
+    {% if similar_products %}
     <section class="py-5 bg-light">
         <div class="container px-4 px-lg-5 mt-5">
             <h2 class="fw-bolder mb-4">Related products</h2>
@@ -105,4 +108,5 @@
             </div>
         </div>
     </section>
+    {% endif %}
 {% endblock %}

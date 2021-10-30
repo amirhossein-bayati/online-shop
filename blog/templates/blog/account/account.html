@@ -1,4 +1,5 @@
 {% extends 'blog/parents/base.html' %}
+{% load blog_tags %}
 {% load static %}
 
 
@@ -245,16 +246,17 @@
                                     <table class="table my-3">
                                         <thead class="thead-dark">
                                         <tr>
-                                            <!-- <th scope="col">#</th> -->
+                                            <th scope="col">#</th>
                                             <th scope="col">Order Id</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Price</th>
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        {% define 0 as counter %}
                                         {% for order in order_history %}
                                         <tr>
-                                            <!-- <th scope="row">{{ order.id }}</th> -->
+                                            <th scope="row">{% define counter|add:1 as counter %}{{ counter }}</th>
                                             <td>{{ order.transaction_id }}</td>
                                             <td>{{ order.date_orderd }}</td>
                                             <td>${{ order.get_total_price|floatformat }}</td>

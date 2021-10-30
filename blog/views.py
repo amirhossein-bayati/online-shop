@@ -25,14 +25,15 @@ import random
 
 from taggit.models import Tag
 
+from django.contrib.auth.decorators import login_required
+
+
 
 
 
 
 def homePage(request, tag_slug=None):
-    top_products = Product.objects.filter().order_by('-ratings__average')[:4]
     products = Product.objects.filter(status='published')
-
     tag =None
 
     if tag_slug:
@@ -43,8 +44,11 @@ def homePage(request, tag_slug=None):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, coplete=False)
         order_items_count = order.get_total_products
+
     else:
         order_items_count = 0
+
+
     # Paginate Site With 6 Items Per A Page
     paginator = Paginator(products, 8)
     page = request.GET.get('page')
@@ -72,9 +76,10 @@ def homePage(request, tag_slug=None):
 def productDetail(request, pk, slug):
     product = get_object_or_404(Product, id=pk, slug=slug, status='published')
 
-    user_ip = request.user.customer.ip_address
-    if user_ip not in product.hits.all():
-        product.hits.add(user_ip)
+    if request.user.is_authenticated:
+        user_ip = request.user.customer.ip_address
+        if user_ip not in product.hits.all():
+            product.hits.add(user_ip)
 
     product_tags = product.tags.values_list('id', flat=True)
     similar_products = Product.objects.filter(tags__in=product_tags, status='published').exclude(id=product.id)
@@ -87,6 +92,7 @@ def productDetail(request, pk, slug):
     return render(request, 'blog/partials/product_detail.html', context)
 
 
+@login_required
 def cart(request):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -130,6 +136,7 @@ def cart(request):
     return render(request, 'blog/partials/cart.html', context)
 
 
+@login_required
 def checkout(request):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -155,6 +162,7 @@ def checkout(request):
     return render(request, 'blog/partials/checkout.html', context)
 
 
+@login_required
 def updateItem(request):
     data = json.loads(request.body)
     productId = data['productId']
@@ -212,11 +220,13 @@ class loginPage(LoginView):
         return super().form_invalid(self)
 
 
+@login_required
 def logoutPage(request):
     logout(request)
     return redirect('blog:login')
 
 
+@login_required
 def accountPage(request):
     customer = request.user.customer
     order_history = Order.objects.filter(customer=customer, coplete=True)
@@ -259,11 +269,13 @@ def post_search(request):
     return render(request, 'blog/partials/content.html', context)
 
 
+@login_required
 def payment(request):
     print(request)
     return render(request, 'blog/partials/payment.html')
 
 
+@login_required
 def payment_success(request):
     customer = request.user.customer
     transaction_id = random.randint(10000, 100000)

@@ -79,6 +79,9 @@ class Order(models.Model):
         total = self.get_total_price
         if self.coupons:
             total -= self.coupons.discount
+
+        if total < 0:
+            total = 0
         return total
 
 

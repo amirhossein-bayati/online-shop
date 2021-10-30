@@ -21,10 +21,13 @@ def SaveIPAddressmiddleware(get_response):
         except:
             ip_address = IPAddress.objects.create(ip_address=ip)
 
-        customer = request.user.customer
-        customer.ip_address = ip_address
-        customer.save()
-
+        try:
+            if request.user.is_authenticated:
+                customer = request.user.customer
+                customer.ip_address = ip_address
+                customer.save()
+        except:
+            pass
         return response
 
     return middleware
