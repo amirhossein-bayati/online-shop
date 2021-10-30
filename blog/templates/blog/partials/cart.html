@@ -3,6 +3,8 @@
 {% block title %}{% endblock %}
 
 {% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <style>
         a {
             text-decoration: none;
@@ -228,25 +230,43 @@
                     <div class="col" style="padding-left:0;">{{ order.get_total_products }} ITEMS</div>
                     <div class="col text-right">$ {{ order.get_total_price|floatformat:2 }}</div>
                 </div>
-                <form>
-                    <p>SHIPPING</p> <select>
-                    <option class="text-muted">Standard-Delivery- &euro;5.00</option>
-                </select>
-                    <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
+                <form method="POST">
+                    <p>SHIPPING</p>
+                    <select name="delivery">
+                        {% for item in delivery %}
+                            <option class="text-muted">{{ item.name }}- ${{ item.price }}</option>
+                        {% endfor %}
+                    </select>
+                    <p>GIVE CODE</p> <input type="text" id="code" placeholder="Enter your code" name="code">
+                    {% if messages %}
+                        {% for msg in messages %}
+                            {% if msg.tags == 'info' %}
+                                <small class="text-danger">{{ msg }}</small>
+
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                {% if order.coupons %}<h7 class="text-success">discount: -${{ order.coupons.discount }}</h7>{% endif %}
+
+                    <button type="submit" class="btn btn-block btn-info">CHECK</button>
+                    {% csrf_token %}
                 </form>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right">$ {{ order.get_total_price|floatformat:2 }}</div>
+                    <div class="col text-right">$ {{ order.get_last_total_price|floatformat:2 }}</div>
                 </div>
                 <a href="{% url 'blog:checkout' %}">
                     <button id="btn">CHECKOUT</button>
                 </a>
                 {% if messages %}
                     {% for message in messages %}
-
-                        <div class="alert alert-danger my-3" role="alert" style="position: absolute; margin-left: -10px; width: 290px">
-                            {{ message }}
-                        </div>
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger my-3" role="alert"
+                                 style="position: absolute; margin-left: -20px; width: 300px">
+                                {{ message }}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             </div>

@@ -10,6 +10,8 @@ from star_ratings.models import Rating
 
 from taggit.managers import TaggableManager
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -37,8 +39,6 @@ class Customer(models.Model):
     address = models.CharField(max_length=500, blank=True, null=True)
     ip_address = models.OneToOneField(IPAddress, on_delete=models.SET_NULL, blank=True, null=True)
 
-
-
     def __str__(self):
         return self.user.username
 
@@ -47,17 +47,18 @@ class Coupon(models.Model):
     code = models.CharField(max_length=20)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
-    discount = models.FloatField()
+    discount = models.IntegerField()
     active = models.BooleanField()
 
     def __str__(self):
         return self.code
 
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_orderd = models.DateTimeField(auto_now_add=True)
     coplete = models.BooleanField(default=False)
-    transaction_id = models.CharField(max_length=100, null=True)
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
     coupons = models.ForeignKey(Coupon, on_delete=models.SET_NULL, blank=True, null=True)
 
     @property
@@ -71,6 +72,21 @@ class Order(models.Model):
         orderItems = self.orderitem_set.all()
         total = sum([item.get_total_price for item in orderItems])
         return total
+
+
+    @property
+    def get_last_total_price(self):
+        total = self.get_total_price
+        if self.coupons:
+            total -= self.coupons.discount
+        return total
+
+
+class Delivery(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.FloatField()
+    active = models.BooleanField()
+
 
 
 class ShippingAddress(models.Model):
@@ -101,7 +117,6 @@ class Product(models.Model):
     hits = models.ManyToManyField(IPAddress, blank=True, related_name='hits')
     tags = TaggableManager()
 
-
     # published = ProductPublishManager()
     # objects = PostManager()
 
@@ -129,5 +144,3 @@ class OrderItem(models.Model):
         else:
             price = self.quantity * self.product.price
         return price
-
-

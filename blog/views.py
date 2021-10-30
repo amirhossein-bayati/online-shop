@@ -71,6 +71,7 @@ def homePage(request, tag_slug=None):
 
 def productDetail(request, pk, slug):
     product = get_object_or_404(Product, id=pk, slug=slug, status='published')
+
     user_ip = request.user.customer.ip_address
     if user_ip not in product.hits.all():
         product.hits.add(user_ip)
@@ -91,6 +92,25 @@ def cart(request):
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, coplete=False)
         items = OrderItem.objects.filter(order=order)
+        delivery = Delivery.objects.filter(active=True)
+        if request.method == "POST":
+            now = timezone.now()
+            code = request.POST['code']
+
+            try:
+                coupon = Coupon.objects.get(code__iexact=code,
+                                            valid_from__lte=now,
+                                            valid_to__gte=now,
+                                            active=True)
+                order.coupons = coupon
+                order.save()
+                off = coupon.discount
+                messages.success(request, f"Discount: -${off}")
+
+
+            except:
+                messages.info(request, "Invalid Coupon")
+
 
     else:
         items = []
@@ -98,11 +118,14 @@ def cart(request):
             'get_total_price': 0,
             'get_total_products': 0,
         }
+        return redirect('blog:login')
     order_items_count = order.get_total_products
+
     context = {
         'items': items,
         'order': order,
         'order_items_count': order_items_count,
+        'delivery': delivery,
     }
     return render(request, 'blog/partials/cart.html', context)
 

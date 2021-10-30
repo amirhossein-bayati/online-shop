@@ -52,3 +52,10 @@ class IPAddressAdmin(admin.ModelAdmin):
 class CouponAdmin(admin.ModelAdmin):
     list_display = ('code', 'valid_from', 'valid_to', 'discount', 'active')
     list_editable = ('active',)
+
+
+
+@admin.register(Delivery)
+class DeliveryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'active')
+    list_editable = ('active',)
