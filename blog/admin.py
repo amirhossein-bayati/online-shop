@@ -42,6 +42,13 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('product', 'order', 'date_added')
     list_filter = ('product', 'order')
 
+
 @admin.register(IPAddress)
 class IPAddressAdmin(admin.ModelAdmin):
     list_display = ('ip_address',)
+
+
+@admin.register(Coupon)
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ('code', 'valid_from', 'valid_to', 'discount', 'active')
+    list_editable = ('active',)

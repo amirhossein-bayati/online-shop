@@ -43,11 +43,22 @@ class Customer(models.Model):
         return self.user.username
 
 
+class Coupon(models.Model):
+    code = models.CharField(max_length=20)
+    valid_from = models.DateTimeField()
+    valid_to = models.DateTimeField()
+    discount = models.FloatField()
+    active = models.BooleanField()
+
+    def __str__(self):
+        return self.code
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_orderd = models.DateTimeField(auto_now_add=True)
     coplete = models.BooleanField(default=False)
     transaction_id = models.CharField(max_length=100, null=True)
+    coupons = models.ForeignKey(Coupon, on_delete=models.SET_NULL, blank=True, null=True)
 
     @property
     def get_total_products(self):
@@ -118,4 +129,5 @@ class OrderItem(models.Model):
         else:
             price = self.quantity * self.product.price
         return price
+
 
