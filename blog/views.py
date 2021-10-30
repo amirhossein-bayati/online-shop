@@ -226,7 +226,7 @@ def accountPage(request):
 def post_search(request):
     if 'query' in request.GET:
         query = request.GET.get('query')
-        lookup = Q(title__icontains=query) | Q(description__icontains=query)
+        lookup = Q(title__icontains=query) | Q(description__icontains=query) | Q(tags__name__icontains=query)
         products = Product.objects.filter(lookup, status='published')
     else:
         products = {}
