@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
 
+from taggit.managers import TaggableManager
+
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -86,6 +88,7 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
     ratings = GenericRelation(Rating, related_query_name='products')
     hits = models.ManyToManyField(IPAddress, blank=True, related_name='hits')
+    tags = TaggableManager()
 
 
     # published = ProductPublishManager()
