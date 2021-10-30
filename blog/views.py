@@ -18,6 +18,9 @@ from django.contrib.auth import logout
 
 from django.db.models import Q
 
+from django.db.models import Count
+
+
 import random
 
 from taggit.models import Tag
@@ -72,9 +75,13 @@ def productDetail(request, pk, slug):
     if user_ip not in product.hits.all():
         product.hits.add(user_ip)
 
-
+    product_tags = product.tags.values_list('id', flat=True)
+    similar_products = Product.objects.filter(tags__in=product_tags, status='published').exclude(id=product.id)
+    # print(similar_products)
+    similar_products = similar_products.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
     context = {
         'product': product,
+        'similar_products': similar_products,
     }
     return render(request, 'blog/partials/product_detail.html', context)
 
