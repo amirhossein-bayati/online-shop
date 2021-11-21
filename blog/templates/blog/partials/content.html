@@ -48,9 +48,10 @@
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto"
                                                             href="{{ product.get_absolute_url }}">View options</a>
                                 </div>
+
                                 <div class="text-center px-5 my-2 inline-block"><a
                                         class="btn btn-outline-info mt-auto update-item"
-                                        data-product="{{ product.id }}" data-action="add">Add Cart</a>
+                                        data-product="{{ product.id }}" data-action="add" {% if not request.user.authentication %}href="{% url 'blog:login' %}" {% endif %}>Add Cart</a>
                                 </div>
                             </div>
                         </div>

@@ -92,7 +92,7 @@ def productDetail(request, pk, slug):
     return render(request, 'blog/partials/product_detail.html', context)
 
 
-@login_required
+
 def cart(request):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -136,7 +136,7 @@ def cart(request):
     return render(request, 'blog/partials/cart.html', context)
 
 
-@login_required
+
 def checkout(request):
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -162,7 +162,7 @@ def checkout(request):
     return render(request, 'blog/partials/checkout.html', context)
 
 
-@login_required
+
 def updateItem(request):
     data = json.loads(request.body)
     productId = data['productId']

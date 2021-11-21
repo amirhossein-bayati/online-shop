@@ -1,6 +1,6 @@
 {% extends 'blog/parents/base.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}Cart{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -256,7 +256,7 @@
                     <div class="col">TOTAL PRICE</div>
                     <div class="col text-right">$ {{ order.get_last_total_price|floatformat:2 }}</div>
                 </div>
-                <a href="{% url 'blog:checkout' %}">
+                <a href="{% if order_items_count == 0 %}{% url 'blog:cart' %} {% else %}{% url 'blog:checkout' %}{% endif %}">
                     <button id="btn">CHECKOUT</button>
                 </a>
                 {% if messages %}
