@@ -1,7 +1,7 @@
 # online-shop
 
 This project is simpleShop with Python Django with diffrent Possibilities  
-![Default Home View](__screenshots/Home-page.png?raw=true "Title")
+![Default Home View](__screenshots/product.png?raw=true "Title")
 
 ### Main features
 
@@ -24,6 +24,8 @@ This project is simpleShop with Python Django with diffrent Possibilities
 * searching on products
 
 * product tag with taagit
+
+* User order history 
 
 
 # Getting Started
