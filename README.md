@@ -17,6 +17,8 @@ This project is simpleShop with Python Django with diffrent Possibilities
 
 * Top Products with star rating
 
+* Related Products 
+
 * Most viewed Products with IP Middleware
 
 * searching on products
