@@ -35,7 +35,7 @@
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
                                style="max-width: 3rem"/>
 
-                        <a class="mt-auto update-item" data-product="{{ product.id }}" data-action="add">
+                        <a class="mt-auto update-item" data-product="{{ product.id }}" data-action="add" {% if not request.user.authentication %}href="{% url 'blog:login' %}"{% endif %}>
                             <button class="btn btn-outline-dark flex-shrink-0" type="button">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to Cart
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="text-center px-5 my-2 inline-block"><a
                                         class="btn btn-outline-info mt-auto update-item"
-                                        data-product="{{ product.id }}" data-action="add" {% if not request.user.authentication %}href="{% url 'blog:login' %}" {% endif %}>Add Cart</a>
+                                        data-product="{{ product.id }}" data-action="add" {% if not request.user.authentication %}href="{% url 'blog:login' %}"{% endif %}>Add Cart</a>
                                 </div>
                             </div>
                         </div>
