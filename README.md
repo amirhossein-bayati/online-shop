@@ -1,6 +1,6 @@
 # online-shop
 
-This project is simpleShop with Python Django with diffrent Possibilities
+This project is a simple Django shop with different Possibilities
 
 ![Default Home View](_screenshots/product.png?raw=true "Title")
 
