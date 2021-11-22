@@ -77,17 +77,25 @@ def productDetail(request, pk, slug):
     product = get_object_or_404(Product, id=pk, slug=slug, status='published')
 
     if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, coplete=False)
+        order_items_count = order.get_total_products
+
         user_ip = request.user.customer.ip_address
         if user_ip not in product.hits.all():
             product.hits.add(user_ip)
+    else:
+        order_items_count = 0
 
     product_tags = product.tags.values_list('id', flat=True)
     similar_products = Product.objects.filter(tags__in=product_tags, status='published').exclude(id=product.id)
-    print(similar_products)
+    # print(similar_products)
     similar_products = similar_products.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
     context = {
         'product': product,
         'similar_products': similar_products,
+        'order_items_count': order_items_count,
+
     }
     return render(request, 'blog/partials/product_detail.html', context)
 
