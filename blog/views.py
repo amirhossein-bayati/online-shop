@@ -83,7 +83,7 @@ def productDetail(request, pk, slug):
 
     product_tags = product.tags.values_list('id', flat=True)
     similar_products = Product.objects.filter(tags__in=product_tags, status='published').exclude(id=product.id)
-    # print(similar_products)
+    print(similar_products)
     similar_products = similar_products.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
     context = {
         'product': product,
