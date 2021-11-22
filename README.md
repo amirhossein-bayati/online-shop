@@ -1,6 +1,7 @@
 # online-shop
 
-This project is simpleShop with Python Django with diffrent Possibilities  
+This project is simpleShop with Python Django with diffrent Possibilities
+
 ![Default Home View](_screenshots/product.png?raw=true "Title")
 
 ### Main features
