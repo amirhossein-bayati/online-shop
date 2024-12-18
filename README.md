@@ -1,6 +1,6 @@
 # online-shop
 
-This project is a simple Django shop with different Possibilities
+Full-featured e-commerce application built using Python Django for the backend and Bootstrap for the frontend. It offers a robust and scalable platform for managing and showcasing products with features like user authentication, product search, and tagging. The application includes dynamic functionalities such as top products with star ratings, related products, and most-viewed products powered by IP-based middleware. Users can register, log in, browse products, and view their order history seamlessly. The project is designed with separated development and production settings, modular requirements files, and an example app with a custom user model, ensuring ease of deployment and extensibility.
 
 ![Default Home View](_screenshots/product.png?raw=true "Title")
 
